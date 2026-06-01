@@ -9,14 +9,9 @@ on: [push]
 jobs:
   run:
     runs-on: ubuntu-latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - uses: iterative/setup-cml@v2
 
       - name: Train model
         env:
@@ -29,7 +24,7 @@ jobs:
           cat scores.txt >> report.md
 
           echo "## Confusion Matrix & Feature Importance" >> report.md
-          echo '![](./ConfusionMatrix.png "ConfusionMatrix")' >> report.md
-          echo '![](./FeatureImportance.png "FeatureImportance")' >> report.md
+          echo '![](./ConfusionMatrix.png "Confusion Matrix")' >> report.md
+          echo '![](./FeatureImportance.png "Feature Importance")' >> report.md
 
           cml comment create report.md
